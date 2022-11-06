@@ -1,0 +1,32 @@
+<main class="grid place-items-center min-h-screen bg-gradient-to-t from-blue-200 to-indigo-900 p-5">
+  <div>
+    <h1 class="text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl ">Trending <span class="text-white">Artists</span>.</h1>
+    <% if logged_in? %>
+      <% if is_admin? %>
+        <%= link_to "Add new", new_album_path, class: "pl-2 text-sm font-medium text-gray-400 hover:text-gray-100 hover:underline" %>
+      <% end %>
+    <% end %>
+    <section class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <% @albums.each do |album| %>
+        <%= link_to album do %>
+          <div class="bg-gray-900 shadow-xl rounded p-3">
+            <div class="group relative">
+              <% if album.cover.attached? %>
+                <%= image_tag album.cover, class: "w-full md:w-72 block " %>
+              <% else %>
+                <%= image_tag "epoch.jpg", class: "w-full md:w-72 block " %>
+              <% end %>
+              <div class="absolute bg-black bg-opacity-0 group-hover:bg-opacity-60 w-full h-full top-0 flex items-center group-hover:opacity-100 transition justify-evenly">
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="text-white text-lg"><%= album.name %></h3>
+              <p class="text-gray-400"><%= album.artist.name %></p>
+              <p class="text-gray-400 text-sm"><%= album.release_date %></p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </section>
+  </div>
+</main>
