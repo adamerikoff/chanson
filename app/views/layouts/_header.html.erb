@@ -12,7 +12,7 @@
         <a href="#" class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300">Discover</a>
         <%= link_to "Artists", artists_path, class: "p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300" %>
         <%= link_to "Albums", albums_path, class: "p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300" %>
-        <a href="#" class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300">Songs</a>
+        <%= link_to "Songs", songs_path, class: "p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300" %>
         <%= link_to "Genres", genres_path, class: "p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300" %>
         <% if logged_in? %>
           <%= button_to "Logout", logout_path, method: "delete", class: "p-2 lg:px-4 md:mx-2 text-red-600 text-center border border-solid border-red-600 rounded hover:bg-red-600 hover:text-white transition-colors duration-300 mt-1 md:mt-0 md:ml-1" %>

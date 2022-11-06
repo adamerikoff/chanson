@@ -1,5 +1,6 @@
 class Album < ApplicationRecord
   belongs_to :artist
+  has_many :songs, dependent: :delete_all
   has_one_attached :cover, dependent: :delete_all
 
   validates :name, uniqueness: true, presence: true, length: { minimum: 3 }

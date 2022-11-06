@@ -27,12 +27,16 @@
     </div>
     <div class="flex flex-col mt-5">
       <ul>
-        <li class="text-center">
-          <p class="text-m">song name</p>
-          <audio controls class="w-full">
-            <source src="horse.mp3" type="audio/mpeg">
-          </audio> 
-        </li>
+        <% @album.songs.each do |song| %>
+          <%= link_to song do %>
+            <li class="text-center hover:bg-gray-300">
+              <p class="text-m"><%= "#{song.artist.name} - #{song.title}" %></p>
+              <audio controls class="w-full">
+                <source src="<%= rails_blob_url(song.audio) %>" type="audio/mpeg">
+              </audio> 
+            </li>
+          <% end %>
+        <% end %>
       </ul>
     </div>
   </a>

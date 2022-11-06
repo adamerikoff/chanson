@@ -11,28 +11,14 @@ class AlbumsController < ApplicationController
 
   def new
     @album = Album.new()
-    @val = ""
   end
 
   def create
-    if Artist.exists?(name: params[:album][:artist])
-      artist = Artist.find_by(name: params[:album][:artist])
-      if Album.new(name: params[:album][:name], release_date: params[:album][:release_date], cover: params[:album][:cover], artist: artist).save
-        redirect_to albums_path, notice: "Album added!"
-      else
-        redirect_to new_album_path, alert: "#{album.name} already exists!"
-      end
+    @album = Album.new(album_params)
+    if @album.save
+      redirect_to albums_path, notice: "Song added!"
     else
-      artist = Artist.new(name: params[:album][:artist], about: "To be added later...")
-      if artist.save
-        if Album.new(name: params[:album][:name], release_date: params[:album][:release_date], cover: params[:album][:cover], artist: artist).save
-          redirect_to edit_artist_path(artist), notice: "Please update artist information!"
-        else
-          redirect_to new_album_path, alert: "#{album.name} already exists!"
-        end
-      else
-        redirect_to new_album_path, alert: "Unexpected error!"
-      end
+      redirect_to new_album_path, alert: "Such album already exists!"
     end
   end
 
@@ -41,29 +27,19 @@ class AlbumsController < ApplicationController
   end
 
   def update
-    @val = @album.artist.name
     @album = Album.find(params[:id])
+
+    album_name = params[:album][:name]
+    release_date = params[:album][:release_date]
+    album_cover = params[:album][:cover]
+    artist = @album.artist
     if params[:album][:cover] == nil
-      params[:album][:cover] = @album.cover.blob
+      album_cover = @album.cover[0]
     end
-    if Artist.exists?(name: params[:album][:artist])
-      artist = Artist.find_by(name: params[:album][:artist])
-      if @album.update(name: params[:album][:name], release_date: params[:album][:release_date], cover: params[:album][:cover], artist: artist)
-        redirect_to @album, notice: "Album updated!"
-      else
-        redirect_to edit_album_path(@album), alert: "#{@album.name} already exists!"
-      end
+    if @album.update(name: album_name, artist: artist, release_date: release_date, cover: album_cover)
+      redirect_to @album, notice: "Genre updated!"
     else
-      artist = Artist.new(name: params[:album][:artist], about: "To be added later...")
-      if artist.save
-        if @album.update(name: params[:album][:name], release_date: params[:album][:release_date], cover: params[:album][:cover], artist: artist)
-          redirect_to edit_artist_path(artist), notice: "Please update artist information!"
-        else
-          redirect_to new_album_path, alert: "#{album.name} already exists!"
-        end
-      else
-        redirect_to new_album_path, alert: "Unexpected error!"
-      end
+      redirect_to edit_album_path(@genre), alert: "Such album already exists!"
     end
   end
 
@@ -74,4 +50,24 @@ class AlbumsController < ApplicationController
     redirect_to albums_path, notice: "Album deleted!"
   end
 
+  private
+  def album_params
+    pars = {}
+    
+    album_name = params[:album][:name]
+    release_date = params[:album][:release_date]
+    artist_name = params[:album][:artist]
+    album_cover = params[:album][:cover]
+
+    if !Artist.exists?(name: artist_name)
+      Artist.create(name: artist_name, about: "To be added later...")
+    end
+    
+    pars[:artist] = Artist.find_by(name: artist_name)
+    pars[:name] = album_name
+    pars[:release_date] = release_date
+    pars[:cover] = album_cover
+
+    pars
+  end
 end
