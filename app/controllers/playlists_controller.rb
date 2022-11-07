@@ -43,4 +43,21 @@ class PlaylistsController < ApplicationController
     redirect_to playlists_path, notice: "Playlists deleted!"
   end
 
+  def song_to_playlist_new
+    @song = Song.find(params[:song_id])
+  end
+
+  def add_song_to_playlist
+    song_id = params[:song]
+    playlist_id = params[:playlist]
+    song = Song.find(song_id)
+    playlist = Playlist.find(playlist_id)
+    temp = PlaylistSong.new(playlist: playlist, song: song)
+    if temp.save
+      redirect_to playlists_path, notice: "Successfuly added song to playlist!"
+    else
+      redirect_to playlist_song_path(song), alert: "Failed!"
+    end
+  end
+
 end
