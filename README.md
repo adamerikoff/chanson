@@ -21,7 +21,7 @@
 Отделить пользовательский интерфейс от бизнес-логики.
 
 # DB SCHEMA
-![image](./screenshots/5.png)
+![image](./screenshots/6.png)
 # UI
 ![image](./screenshots/1.png)
 
